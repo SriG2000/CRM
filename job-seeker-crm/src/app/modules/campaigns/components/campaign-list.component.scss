@@ -1,0 +1,27 @@
+mat-card {
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.status {
+  padding: 4px 8px;
+  border-radius: 8px;
+  background-color: rgba(244, 67, 54, 0.08);
+  color: #c62828;
+
+  &.active {
+    background-color: rgba(67, 160, 71, 0.15);
+    color: #2e7d32;
+  }
+}

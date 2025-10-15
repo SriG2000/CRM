@@ -1,0 +1,33 @@
+mat-card {
+  padding: 24px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.campaign-selector {
+  grid-column: 1 / -1;
+  background: #f1f4ff;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.muted {
+  color: rgba(0, 0, 0, 0.54);
+}

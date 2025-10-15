@@ -1,0 +1,46 @@
+<div class="dashboard">
+  <section class="metrics">
+    <mat-card class="metric" *ngFor="let status of statuses">
+      <h3>{{ status }}</h3>
+      <p>{{ totals.byStatus.get(status) ?? 0 }}</p>
+    </mat-card>
+    <mat-card class="metric highlight">
+      <h3>Total Job Seekers</h3>
+      <p>{{ totals.overall }}</p>
+    </mat-card>
+    <mat-card class="metric">
+      <h3>Active Campaigns</h3>
+      <p>{{ totals.activeCampaigns }}</p>
+    </mat-card>
+    <mat-card class="metric">
+      <h3>Scheduled / Paused</h3>
+      <p>{{ totals.scheduledCampaigns }}</p>
+    </mat-card>
+  </section>
+
+  <div class="columns">
+    <mat-card class="recent">
+      <h2>Recent Talent Touchpoints</h2>
+      <mat-list>
+        <mat-list-item *ngFor="let seeker of recentJobSeekers">
+          <mat-icon matListIcon>person</mat-icon>
+          <div matLine>{{ seeker.name }}</div>
+          <div matLine class="muted">{{ seeker.status }} • Last contacted {{ seeker.lastContacted | date:'mediumDate' }}</div>
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+
+    <mat-card class="campaigns">
+      <h2>Campaign Snapshot</h2>
+      <div class="campaign" *ngFor="let campaign of campaigns">
+        <div>
+          <h3>{{ campaign.name }}</h3>
+          <p class="muted">{{ campaign.stage }}</p>
+        </div>
+        <mat-chip color="primary" [selected]="campaign.active">
+          {{ campaign.active ? 'Active' : 'Paused' }}
+        </mat-chip>
+      </div>
+    </mat-card>
+  </div>
+</div>

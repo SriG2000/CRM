@@ -1,0 +1,53 @@
+<mat-card>
+  <div class="header">
+    <div>
+      <h2>Campaigns</h2>
+      <p class="subtitle">Monitor outreach cadences and nurture flows.</p>
+    </div>
+    <button mat-flat-button color="primary" routerLink="/campaigns/new" disabled>
+      <mat-icon>add</mat-icon>
+      New Campaign
+    </button>
+  </div>
+
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z1">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let campaign">
+        <button mat-button color="primary" (click)="viewDetails(campaign)">
+          {{ campaign.name }}
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="stage">
+      <mat-header-cell *matHeaderCellDef>Stage</mat-header-cell>
+      <mat-cell *matCellDef="let campaign">{{ campaign.stage }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="active">
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell *matCellDef="let campaign">
+        <span class="status" [class.active]="campaign.active">{{ campaign.active ? 'Active' : 'Paused' }}</span>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dates">
+      <mat-header-cell *matHeaderCellDef>Schedule</mat-header-cell>
+      <mat-cell *matCellDef="let campaign">
+        {{ campaign.startDate | date }} - {{ campaign.endDate | date }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let campaign">
+        <button mat-button (click)="toggleActive(campaign)">{{ campaign.active ? 'Pause' : 'Activate' }}</button>
+        <button mat-button color="primary" (click)="launchCampaign(campaign)">Launch</button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</mat-card>

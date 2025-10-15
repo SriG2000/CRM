@@ -1,0 +1,26 @@
+.brand {
+  margin: 24px 16px 16px;
+  font-weight: 600;
+}
+
+.active-link {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+mat-nav-list {
+  a {
+    color: white;
+  }
+}
+
+.mat-sidenav-content {
+  background-color: transparent;
+}
+
+.content-wrapper {
+  margin-top: 16px;
+}
+
+.spacer {
+  flex: 1;
+}
