@@ -1,0 +1,46 @@
+<ng-container *ngIf="campaign; else loading">
+  <mat-card>
+    <div class="header">
+      <button mat-icon-button (click)="back()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h2>{{ campaign.name }}</h2>
+    </div>
+
+    <form [formGroup]="form" class="form-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Campaign Name</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Stage</mat-label>
+        <mat-select formControlName="stage">
+          <mat-option value="Initial Outreach">Initial Outreach</mat-option>
+          <mat-option value="Nurture">Nurture</mat-option>
+          <mat-option value="Reactivation">Reactivation</mat-option>
+          <mat-option value="Offer">Offer</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Start Date</mat-label>
+        <input matInput type="date" formControlName="startDate" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>End Date</mat-label>
+        <input matInput type="date" formControlName="endDate" />
+      </mat-form-field>
+      <mat-slide-toggle formControlName="active">Active</mat-slide-toggle>
+    </form>
+
+    <div class="actions">
+      <button mat-stroked-button color="primary" (click)="sendPreview()">Send Preview</button>
+      <button mat-flat-button color="primary" (click)="save()" [disabled]="form.invalid">Save</button>
+    </div>
+  </mat-card>
+</ng-container>
+
+<ng-template #loading>
+  <div class="loading-state">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

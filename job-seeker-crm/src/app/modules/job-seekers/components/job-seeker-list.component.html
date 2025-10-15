@@ -1,0 +1,101 @@
+<div class="job-seeker-list">
+  <mat-card class="filters">
+    <mat-form-field appearance="outline">
+      <mat-label>Search</mat-label>
+      <input matInput [formControl]="filterControl" placeholder="Search by name, email, or status" />
+      <button mat-icon-button matSuffix *ngIf="filterControl.value" (click)="filterControl.setValue('')">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </mat-card>
+
+  <mat-card class="create-card">
+    <h3>Add Job Seeker</h3>
+    <form [formGroup]="createForm" (ngSubmit)="createJobSeeker()" class="create-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" required />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" required />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status" required>
+          <mat-option *ngFor="let status of statuses" [value]="status">{{ status }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Preference</mat-label>
+        <input matInput formControlName="preference" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Last Contacted</mat-label>
+        <input matInput type="date" formControlName="lastContacted" />
+      </mat-form-field>
+      <button mat-flat-button color="primary" type="submit" [disabled]="createForm.invalid">Add</button>
+    </form>
+  </mat-card>
+
+  <mat-card>
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z1">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell *matCellDef="let seeker">
+          <button mat-button color="primary" (click)="viewDetails(seeker)">{{ seeker.name }}</button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+        <mat-cell *matCellDef="let seeker">{{ seeker.email }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+        <mat-cell *matCellDef="let seeker">
+          <mat-form-field appearance="fill" class="status-field">
+            <mat-select [value]="seeker.status" (selectionChange)="updateStatus(seeker, $event.value)">
+              <mat-option *ngFor="let status of statuses" [value]="status">{{ status }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="preference">
+        <mat-header-cell *matHeaderCellDef>Preference</mat-header-cell>
+        <mat-cell *matCellDef="let seeker">{{ seeker.preference }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="lastContacted">
+        <mat-header-cell *matHeaderCellDef>Last Contacted</mat-header-cell>
+        <mat-cell *matCellDef="let seeker">{{ seeker.lastContacted | date }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="campaigns">
+        <mat-header-cell *matHeaderCellDef>Campaigns</mat-header-cell>
+        <mat-cell *matCellDef="let seeker">
+          <mat-chip-set *ngIf="seeker.campaigns?.length; else none">
+            <mat-chip *ngFor="let campaignId of seeker.campaigns">#{{ campaignId }}</mat-chip>
+          </mat-chip-set>
+          <ng-template #none>
+            <span class="muted">Unassigned</span>
+          </ng-template>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let seeker">
+          <button mat-icon-button color="warn" (click)="deleteJobSeeker(seeker)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </mat-card>
+</div>

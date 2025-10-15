@@ -1,0 +1,41 @@
+<mat-card class="communication-panel">
+  <div class="panel-header">
+    <h2>Engagement Panel</h2>
+    <p class="subtitle">Coordinate AI voice drops, chatbot nudges, WhatsApp nudges and recruiter calls.</p>
+  </div>
+
+  <mat-button-toggle-group [value]="selectedChannel" (change)="selectChannel($event.value)" class="channel-toggle">
+    <mat-button-toggle *ngFor="let channel of channels" [value]="channel">
+      {{ channel }}
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <form [formGroup]="messageForm" (ngSubmit)="send()" class="message-form">
+    <mat-form-field appearance="outline" class="message-field">
+      <mat-label>Message</mat-label>
+      <textarea matInput formControlName="message" rows="3" placeholder="Enter outreach copy"></textarea>
+    </mat-form-field>
+    <button mat-flat-button color="primary" type="submit" [disabled]="messageForm.invalid">
+      Send via {{ selectedChannel }}
+    </button>
+  </form>
+
+  <mat-divider></mat-divider>
+
+  <section class="activity-log">
+    <h3>Recent Activity</h3>
+    <mat-list>
+      <mat-list-item *ngFor="let event of communications">
+        <mat-icon matListIcon>notifications</mat-icon>
+        <div matLine>{{ event.message }}</div>
+        <div matLine class="timestamp">{{ event.timestamp | date:'short' }}</div>
+        <mat-chip [color]="event.type === 'WhatsApp' ? 'primary' : event.type === 'Chatbot' ? 'accent' : 'warn'" selected>
+          {{ event.type }}
+        </mat-chip>
+      </mat-list-item>
+      <mat-list-item *ngIf="!communications.length">
+        <div matLine class="muted">No communications logged yet.</div>
+      </mat-list-item>
+    </mat-list>
+  </section>
+</mat-card>

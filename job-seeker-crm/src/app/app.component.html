@@ -1,0 +1,30 @@
+<mat-sidenav-container class="app-shell">
+  <mat-sidenav class="app-sidenav" mode="side" opened>
+    <h2 class="brand">Job Seeker CRM</h2>
+    <mat-nav-list>
+      <a mat-list-item *ngFor="let link of navLinks" [routerLink]="link.path" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: link.path === '/' }">
+        {{ link.label }}
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="app-content">
+    <mat-toolbar color="primary">
+      <span>Talent Engagement Dashboard</span>
+      <span class="spacer"></span>
+      <button mat-icon-button [routerLink]="'/job-seekers'" aria-label="Job seekers">
+        <mat-icon>people</mat-icon>
+      </button>
+      <button mat-icon-button [routerLink]="'/campaigns'" aria-label="Campaigns">
+        <mat-icon>campaign</mat-icon>
+      </button>
+      <button mat-icon-button [routerLink]="'/communication'" aria-label="Communication">
+        <mat-icon>forum</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

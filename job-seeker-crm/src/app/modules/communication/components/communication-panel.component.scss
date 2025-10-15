@@ -1,0 +1,52 @@
+.communication-panel {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.panel-header {
+  h2 {
+    margin: 0;
+  }
+
+  .subtitle {
+    margin: 4px 0 0;
+    color: rgba(0, 0, 0, 0.54);
+  }
+}
+
+.channel-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.message-form {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+
+  .message-field {
+    flex: 1;
+  }
+}
+
+.activity-log {
+  h3 {
+    margin-bottom: 8px;
+  }
+
+  mat-list-item {
+    align-items: center;
+    gap: 12px;
+  }
+
+  .timestamp {
+    color: rgba(0, 0, 0, 0.54);
+  }
+}
+
+.muted {
+  color: rgba(0, 0, 0, 0.54);
+}

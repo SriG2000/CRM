@@ -1,0 +1,52 @@
+<ng-container *ngIf="jobSeeker; else loading">
+  <mat-card>
+    <h2>{{ jobSeeker.name }}</h2>
+    <form [formGroup]="detailForm" (ngSubmit)="saveChanges()" class="detail-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let status of statuses" [value]="status">{{ status }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Preference</mat-label>
+        <input matInput formControlName="preference" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Last Contacted</mat-label>
+        <input matInput type="date" formControlName="lastContacted" />
+      </mat-form-field>
+
+      <div class="campaign-selector">
+        <h3>Campaigns</h3>
+        <mat-selection-list formControlName="campaigns">
+          <mat-list-option *ngFor="let campaign of campaigns" [value]="campaign.id" (click)="toggleCampaign(campaign.id)">
+            <div mat-line>{{ campaign.name }}</div>
+            <div mat-line class="muted">{{ campaign.stage }}</div>
+            <mat-icon matListIcon>{{ (detailForm.value.campaigns as number[]).includes(campaign.id) ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </form>
+
+    <div class="actions">
+      <button mat-flat-button color="primary" type="submit" (click)="saveChanges()" [disabled]="detailForm.invalid">
+        Save Changes
+      </button>
+    </div>
+  </mat-card>
+</ng-container>
+
+<ng-template #loading>
+  <div class="loading-state">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
