@@ -1,0 +1,140 @@
+<div class="campaigns-page">
+  <mat-card class="page-card">
+    <div class="header">
+      <div>
+        <h2>Campaign command center</h2>
+        <p class="subtitle">Launch job invitations and nurture cadences with confidence.</p>
+      </div>
+      <div class="header-actions">
+        <button mat-stroked-button type="button" (click)="goToCreate()">
+          <mat-icon>add</mat-icon>
+          Design in detail
+        </button>
+        <button mat-flat-button color="primary" type="button" (click)="createCampaign()" [disabled]="createForm.invalid">
+          <mat-icon>rocket_launch</mat-icon>
+          Quick launch
+        </button>
+      </div>
+    </div>
+
+    <div class="metrics">
+      <mat-chip color="primary" selected>Total: {{ metrics.total }}</mat-chip>
+      <mat-chip color="primary" selected>Active: {{ metrics.active }}</mat-chip>
+      <mat-chip color="warn" selected>Paused: {{ metrics.paused }}</mat-chip>
+    </div>
+
+    <form [formGroup]="createForm" class="create-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Campaign name</mat-label>
+        <input matInput formControlName="name" placeholder="e.g. Reactivation Blast" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Stage</mat-label>
+        <mat-select formControlName="stage">
+          <mat-option *ngFor="let stage of stages" [value]="stage">{{ stage }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Start date</mat-label>
+        <input matInput type="date" formControlName="startDate" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>End date</mat-label>
+        <input matInput type="date" formControlName="endDate" />
+      </mat-form-field>
+      <mat-slide-toggle formControlName="active">Active on launch</mat-slide-toggle>
+    </form>
+  </mat-card>
+
+  <mat-card class="table-card">
+    <div class="table-filters">
+      <mat-form-field appearance="outline">
+        <mat-label>Search campaigns</mat-label>
+        <input matInput [formControl]="filterControl" placeholder="Search by name or stage" />
+        <button mat-icon-button matSuffix *ngIf="filterControl.value" (click)="filterControl.setValue('')" aria-label="Clear">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-chip-listbox class="stage-filters" aria-label="Filter by stage">
+        <mat-chip-option
+          [selected]="stageFilter === 'All'"
+          (click)="filterByStage('All')"
+        >
+          All stages
+        </mat-chip-option>
+        <mat-chip-option
+          *ngFor="let stage of stages"
+          [selected]="stageFilter === stage"
+          (click)="filterByStage(stage)"
+        >
+          {{ stage }}
+        </mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+
+    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+        <mat-cell *matCellDef="let campaign">
+          <div class="name-cell">
+            <mat-icon>campaign</mat-icon>
+            <div>
+              <button mat-button color="primary" type="button" (click)="viewDetails(campaign)">{{ campaign.name }}</button>
+              <div class="muted">{{ campaign.stage }}</div>
+            </div>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="stage">
+        <mat-header-cell *matHeaderCellDef>Stage</mat-header-cell>
+        <mat-cell *matCellDef="let campaign">
+          <mat-chip color="accent" selected>{{ campaign.stage }}</mat-chip>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="active">
+        <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+        <mat-cell *matCellDef="let campaign">
+          <mat-slide-toggle [checked]="campaign.active" (change)="toggleActive(campaign)">
+            {{ campaign.active ? 'Active' : 'Paused' }}
+          </mat-slide-toggle>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="dates">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Schedule</mat-header-cell>
+        <mat-cell *matCellDef="let campaign">
+          <div class="date-block">
+            <span>{{ campaign.startDate | date }}</span>
+            <mat-icon>arrow_forward</mat-icon>
+            <span>{{ campaign.endDate | date }}</span>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let campaign" class="actions-cell">
+          <button mat-icon-button color="primary" type="button" matTooltip="Open" (click)="viewDetails(campaign)">
+            <mat-icon>open_in_new</mat-icon>
+          </button>
+          <button mat-stroked-button color="primary" type="button" (click)="launchCampaign(campaign)">
+            Launch
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      <mat-row *matNoDataRow class="no-data">
+        <mat-cell colspan="5">
+          <mat-icon>campaign</mat-icon>
+          <span>No campaigns match your filters yet.</span>
+        </mat-cell>
+      </mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+  </mat-card>
+</div>

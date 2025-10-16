@@ -1,0 +1,114 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  align-items: center;
+  padding: 28px;
+}
+
+.hero-main {
+  display: grid;
+  gap: 16px;
+
+  h1 {
+    margin: 0;
+    font-size: 1.8rem;
+  }
+}
+
+.hero-stats {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .value {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .label {
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.hero-side {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.metric {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+
+  h3 {
+    margin: 0;
+    font-weight: 500;
+  }
+
+  p {
+    font-size: 2rem;
+    margin: 0;
+  }
+
+  .percentage {
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  &.highlight {
+    background: linear-gradient(135deg, #5c6bc0, #3949ab);
+    color: white;
+  }
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.recent, .campaigns {
+  padding: 24px;
+}
+
+.campaign {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.next {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.muted {
+  color: rgba(0, 0, 0, 0.54);
+}

@@ -1,0 +1,99 @@
+.communication-panel {
+  display: grid;
+  gap: 20px;
+  padding: 28px;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.summary {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.summary-card {
+  min-width: 120px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1e88e5, #3949ab);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .value {
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.channel-toggle {
+  align-self: flex-start;
+}
+
+.channel-description {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.templates {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  .templates-label {
+    font-weight: 600;
+  }
+}
+
+.message-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .message-field {
+    width: 100%;
+  }
+}
+
+.activity-log {
+  display: grid;
+  gap: 12px;
+}
+
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timestamp {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.muted {
+  color: rgba(0, 0, 0, 0.54);
+}

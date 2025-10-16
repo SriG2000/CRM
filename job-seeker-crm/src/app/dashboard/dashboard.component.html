@@ -1,0 +1,76 @@
+<div class="dashboard">
+  <mat-card class="hero">
+    <div class="hero-main">
+      <h1>Pipeline health</h1>
+      <p>Monitor every candidate journey, campaign, and touchpoint from one command center.</p>
+      <div class="hero-stats">
+        <div>
+          <span class="value">{{ totals.overall }}</span>
+          <span class="label">Job seekers</span>
+        </div>
+        <div>
+          <span class="value">{{ pipelineMomentum }}%</span>
+          <span class="label">Active or pipeline</span>
+        </div>
+        <div>
+          <span class="value">{{ averageTouchpointCadence }} days</span>
+          <span class="label">Avg. since last touch</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-side">
+      <mat-progress-spinner mode="determinate" [value]="pipelineMomentum" diameter="120"></mat-progress-spinner>
+      <span>Momentum</span>
+    </div>
+  </mat-card>
+
+  <section class="metrics">
+    <mat-card class="metric" *ngFor="let breakdown of statusBreakdown">
+      <h3>{{ breakdown.status }}</h3>
+      <p>{{ breakdown.count }}</p>
+      <mat-progress-bar mode="determinate" [value]="breakdown.percentage"></mat-progress-bar>
+      <span class="percentage">{{ breakdown.percentage }}%</span>
+    </mat-card>
+    <mat-card class="metric highlight">
+      <h3>Active campaigns</h3>
+      <p>{{ totals.activeCampaigns }}</p>
+      <span class="muted">{{ totals.scheduledCampaigns }} paused or scheduled</span>
+    </mat-card>
+  </section>
+
+  <div class="columns">
+    <mat-card class="recent">
+      <h2>Recent talent touchpoints</h2>
+      <mat-list>
+        <mat-list-item *ngFor="let seeker of recentJobSeekers">
+          <mat-icon matListIcon>person</mat-icon>
+          <div matLine>{{ seeker.name }}</div>
+          <div matLine class="muted">{{ seeker.status }} • Last contacted {{ seeker.lastContacted | date:'mediumDate' }}</div>
+        </mat-list-item>
+        <mat-list-item *ngIf="!recentJobSeekers.length">
+          <div matLine class="muted">No recent touchpoints logged.</div>
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
+
+    <mat-card class="campaigns">
+      <h2>Campaign snapshot</h2>
+      <div class="campaign" *ngFor="let campaign of campaigns">
+        <div>
+          <h3>{{ campaign.name }}</h3>
+          <p class="muted">{{ campaign.stage }} • {{ campaign.startDate | date }} → {{ campaign.endDate | date }}</p>
+        </div>
+        <mat-chip color="primary" [selected]="campaign.active">
+          {{ campaign.active ? 'Live' : 'Paused' }}
+        </mat-chip>
+      </div>
+      <div class="next" *ngIf="nextCampaign">
+        <mat-icon>event</mat-icon>
+        <div>
+          <p class="muted">Next scheduled</p>
+          <strong>{{ nextCampaign?.name }} — {{ nextCampaign?.startDate | date }}</strong>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

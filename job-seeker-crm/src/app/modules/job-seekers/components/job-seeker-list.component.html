@@ -1,0 +1,153 @@
+<div class="job-seeker-list">
+  <section class="page-header">
+    <div>
+      <h1>Talent Pipeline</h1>
+      <p class="subtitle">Stay on top of every candidate touchpoint across the funnel.</p>
+    </div>
+    <button mat-stroked-button color="primary" (click)="loadJobSeekers()">
+      <mat-icon>refresh</mat-icon>
+      Refresh data
+    </button>
+  </section>
+
+  <section class="status-summary" role="navigation" aria-label="Pipeline status filters">
+    <button
+      mat-button
+      class="status-chip"
+      *ngFor="let item of statusSummary"
+      [color]="item.accent"
+      [class.active]="selectedStatus === item.label"
+      (click)="filterByStatus(item.label)"
+    >
+      <span class="label">{{ item.label }}</span>
+      <span class="count">{{ item.count }}</span>
+    </button>
+  </section>
+
+  <mat-card class="filters">
+    <mat-form-field appearance="outline">
+      <mat-label>Search</mat-label>
+      <input matInput [formControl]="filterControl" placeholder="Search by name, email or status" />
+      <button mat-icon-button matSuffix *ngIf="filterControl.value" (click)="filterControl.setValue('')" aria-label="Clear">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <span class="results-copy">Showing {{ dataSource.filteredData.length }} of {{ dataSource.data.length }} job seekers</span>
+  </mat-card>
+
+  <mat-card class="create-card">
+    <div class="create-header">
+      <h3>Add job seeker</h3>
+      <p class="muted">Drop a lead into the funnel and assign their starting status.</p>
+    </div>
+    <form [formGroup]="createForm" (ngSubmit)="createJobSeeker()" class="create-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" required />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" required />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status" required>
+          <mat-option *ngFor="let status of statuses" [value]="status">{{ status }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Preference</mat-label>
+        <input matInput formControlName="preference" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Last contacted</mat-label>
+        <input matInput type="date" formControlName="lastContacted" />
+      </mat-form-field>
+      <button mat-flat-button color="primary" type="submit" [disabled]="createForm.invalid">
+        <mat-icon>person_add</mat-icon>
+        Add to pipeline
+      </button>
+    </form>
+  </mat-card>
+
+  <mat-card class="table-card">
+    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+        <mat-cell *matCellDef="let seeker">
+          <div class="name-cell">
+            <div class="avatar">{{ seeker.name | slice:0:1 }}</div>
+            <div class="identity">
+              <button mat-button color="primary" type="button" (click)="viewDetails(seeker)">
+                {{ seeker.name }}
+              </button>
+              <span class="muted">{{ seeker.email }}</span>
+            </div>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+        <mat-cell *matCellDef="let seeker">{{ seeker.email }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+        <mat-cell *matCellDef="let seeker">
+          <mat-form-field appearance="fill" class="status-field">
+            <mat-select [value]="seeker.status" (selectionChange)="updateStatus(seeker, $event.value)">
+              <mat-option *ngFor="let status of statuses" [value]="status">{{ status }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="preference">
+        <mat-header-cell *matHeaderCellDef>Preference</mat-header-cell>
+        <mat-cell *matCellDef="let seeker">{{ seeker.preference || '—' }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="lastContacted">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Last contacted</mat-header-cell>
+        <mat-cell *matCellDef="let seeker">{{ seeker.lastContacted | date }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="campaigns">
+        <mat-header-cell *matHeaderCellDef>Campaigns</mat-header-cell>
+        <mat-cell *matCellDef="let seeker">
+          <mat-chip-set *ngIf="seeker.campaigns?.length; else none" class="campaign-chips">
+            <mat-chip *ngFor="let campaignId of seeker.campaigns" color="primary" selected>
+              {{ campaignName(campaignId) }}
+            </mat-chip>
+          </mat-chip-set>
+          <ng-template #none>
+            <span class="muted">Unassigned</span>
+          </ng-template>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let seeker" class="actions-cell">
+          <button mat-icon-button color="primary" type="button" matTooltip="Open profile" (click)="viewDetails(seeker)">
+            <mat-icon>open_in_new</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" type="button" matTooltip="Remove" (click)="deleteJobSeeker(seeker)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      <mat-row *matNoDataRow class="no-data">
+        <mat-cell colspan="7">
+          <mat-icon>search_off</mat-icon>
+          <span>No job seekers match your filters yet.</span>
+        </mat-cell>
+      </mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+  </mat-card>
+</div>

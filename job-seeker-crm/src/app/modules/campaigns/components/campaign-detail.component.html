@@ -1,0 +1,65 @@
+<mat-card class="detail-card" *ngIf="form; else loading">
+  <div class="detail-header">
+    <button mat-button type="button" (click)="back()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to campaigns
+    </button>
+    <div class="title-block">
+      <h2>{{ isNew ? 'Create nurture campaign' : campaign?.name }}</h2>
+      <p class="muted">Control cadence, channels, and timing for every outreach sequence.</p>
+    </div>
+    <mat-chip color="primary" selected>{{ form.value.active ? 'Active' : 'Paused' }}</mat-chip>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <form [formGroup]="form" (ngSubmit)="save()" class="form-grid">
+    <mat-form-field appearance="outline">
+      <mat-label>Campaign name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Stage</mat-label>
+      <mat-select formControlName="stage">
+        <mat-option *ngFor="let stage of stageOptions" [value]="stage">{{ stage }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Start date</mat-label>
+      <input matInput type="date" formControlName="startDate" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>End date</mat-label>
+      <input matInput type="date" formControlName="endDate" />
+    </mat-form-field>
+    <mat-slide-toggle formControlName="active">Active</mat-slide-toggle>
+
+    <section class="playbook">
+      <h3>Playbook checklist</h3>
+      <div class="checklist">
+        <mat-checkbox checked>Template personalised</mat-checkbox>
+        <mat-checkbox checked>Follow-up cadence ready</mat-checkbox>
+        <mat-checkbox>AI voicemail script recorded</mat-checkbox>
+        <mat-checkbox>WhatsApp handoff to recruiter</mat-checkbox>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button mat-stroked-button type="button" (click)="sendPreview()" [disabled]="form.invalid">
+        <mat-icon>play_arrow</mat-icon>
+        Queue preview
+      </button>
+      <span class="spacer"></span>
+      <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+        <mat-icon>save</mat-icon>
+        {{ isNew ? 'Create campaign' : 'Save changes' }}
+      </button>
+    </div>
+  </form>
+</mat-card>
+
+<ng-template #loading>
+  <div class="loading-state">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

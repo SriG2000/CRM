@@ -1,0 +1,63 @@
+<mat-card class="communication-panel">
+  <div class="panel-header">
+    <div>
+      <h2>Engagement console</h2>
+      <p class="subtitle">Launch omni-channel nudges and monitor recruiter follow-ups.</p>
+    </div>
+    <div class="summary">
+      <div class="summary-card" *ngFor="let channel of channels">
+        <span class="label">{{ channel }}</span>
+        <span class="value">{{ activitySummary[channel] }}</span>
+      </div>
+    </div>
+  </div>
+
+  <mat-button-toggle-group [value]="selectedChannel" (change)="selectChannel($event.value)" class="channel-toggle">
+    <mat-button-toggle *ngFor="let channel of channels" [value]="channel">
+      {{ channel }}
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <p class="channel-description">{{ channelDescriptions[selectedChannel] }}</p>
+
+  <div class="templates">
+    <span class="templates-label">Quick templates:</span>
+    <button mat-button type="button" *ngFor="let template of templates" (click)="useTemplate(template.message)">
+      {{ template.label }}
+    </button>
+  </div>
+
+  <form [formGroup]="messageForm" (ngSubmit)="send()" class="message-form">
+    <mat-form-field appearance="outline" class="message-field">
+      <mat-label>Message</mat-label>
+      <textarea matInput formControlName="message" rows="3" placeholder="Enter outreach copy"></textarea>
+    </mat-form-field>
+    <button mat-flat-button color="primary" type="submit" [disabled]="messageForm.invalid">
+      Send via {{ selectedChannel }}
+    </button>
+  </form>
+
+  <mat-divider></mat-divider>
+
+  <section class="activity-log">
+    <div class="activity-header">
+      <h3>Recent activity</h3>
+      <button mat-button type="button" (click)="clearLog()" [disabled]="!communications.length">
+        Clear log
+      </button>
+    </div>
+    <mat-list>
+      <mat-list-item *ngFor="let event of communications">
+        <mat-icon matListIcon>notifications</mat-icon>
+        <div matLine>{{ event.message }}</div>
+        <div matLine class="timestamp">{{ event.timestamp | date:'short' }}</div>
+        <mat-chip [color]="event.type === 'WhatsApp' ? 'primary' : event.type === 'Chatbot' ? 'accent' : 'warn'" selected>
+          {{ event.type }}
+        </mat-chip>
+      </mat-list-item>
+      <mat-list-item *ngIf="!communications.length">
+        <div matLine class="muted">No communications logged yet.</div>
+      </mat-list-item>
+    </mat-list>
+  </section>
+</mat-card>

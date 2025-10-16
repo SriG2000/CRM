@@ -1,0 +1,124 @@
+.campaigns-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-card {
+  display: grid;
+  gap: 20px;
+  padding: 28px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.subtitle {
+  margin-top: 4px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.metrics {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.create-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  align-items: end;
+
+  mat-slide-toggle {
+    justify-self: flex-start;
+  }
+}
+
+.table-card {
+  padding: 0 0 8px;
+  overflow: hidden;
+}
+
+.table-filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 24px 0;
+  flex-wrap: wrap;
+
+  mat-form-field {
+    min-width: 220px;
+    flex: 1;
+  }
+}
+
+.stage-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  mat-chip-option {
+    text-transform: none;
+    font-weight: 500;
+  }
+}
+
+.mat-table {
+  background: transparent;
+}
+
+.name-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  mat-icon {
+    color: #3949ab;
+  }
+}
+
+.date-block {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.no-data mat-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 0;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.muted {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+mat-paginator {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}

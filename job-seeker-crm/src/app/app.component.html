@@ -1,0 +1,45 @@
+<mat-sidenav-container class="app-shell">
+  <mat-sidenav class="app-sidenav" mode="side" opened>
+    <div class="brand">
+      <mat-icon>support_agent</mat-icon>
+      <div>
+        <h1>Job Seeker CRM</h1>
+        <p>AI-assisted recruiting hub</p>
+      </div>
+    </div>
+    <mat-nav-list>
+      <a
+        mat-list-item
+        *ngFor="let link of navLinks"
+        [routerLink]="link.path"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+      >
+        <mat-icon matListIcon>{{ link.icon }}</mat-icon>
+        <span>{{ link.label }}</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="app-content">
+    <mat-toolbar color="primary" class="top-toolbar">
+      <div class="toolbar-title">
+        <mat-icon>dashboard</mat-icon>
+        <span>Talent engagement dashboard</span>
+      </div>
+      <span class="spacer"></span>
+      <button mat-button [routerLink]="'/job-seekers'">
+        <mat-icon>person_add</mat-icon>
+        Add candidate
+      </button>
+      <button mat-stroked-button color="accent" [routerLink]="'/campaigns/new'">
+        <mat-icon>auto_graph</mat-icon>
+        New campaign
+      </button>
+    </mat-toolbar>
+
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

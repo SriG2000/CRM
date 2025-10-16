@@ -1,0 +1,67 @@
+.detail-card {
+  display: grid;
+  gap: 24px;
+  padding: 32px;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.title-block {
+  max-width: 460px;
+}
+
+.form-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.playbook {
+  grid-column: 1 / -1;
+  background: #f5f7ff;
+  border-radius: 16px;
+  padding: 20px;
+  display: grid;
+  gap: 12px;
+
+  h3 {
+    margin: 0;
+  }
+
+  .checklist {
+    display: grid;
+    gap: 8px;
+  }
+}
+
+.actions {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.muted {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 240px;
+}
